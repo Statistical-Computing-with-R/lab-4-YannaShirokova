@@ -42,14 +42,15 @@ counties <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytues
 
 In this lab we’re going look at the median weekly cost of childcare in California.
 
-The childcare_costs dataset looks at counties and provides information on
+The childcare_costs dataset looks at various counties and provides information on
 unemployement rates, labor force participation rates, poverty rates, medium earnings/
 income, total population count, race, number of households, employement/ type of jobs, 
-and chilcare care rates for different groups. The counties dataset looks at counties 
-and provides information on their name, state, and two letter abbreviation. Together, 
-these datasets allow us to analyze and compare counties in terms of employment, 
-poverty, household income, and childcare costs, offering insights into the economic 
-factors that may influence childcare affordability across different regions.
+and chilcare care rates for different groups. The counties dataset looks at various 
+counties and provides information on their name, state, and two letter abbreviation. 
+Together, these datasets allow us to analyze and compare counties in terms of 
+employment, poverty, household income, and childcare costs, offering insights into 
+the economic factors that may influence childcare affordability across different 
+regions.
 
 ## California Childcare Costs
 
