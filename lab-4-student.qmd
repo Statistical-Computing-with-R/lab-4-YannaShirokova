@@ -207,16 +207,47 @@ ggplot(ca_childcare_long, aes(x = study_year, y = price, color = region)) +
 ```{r}
 #| label: scatterplot-median-income-vs-childcare-cost
 
+ggplot(ca_childcare, aes(x = mhi_2018, y = mc_infant)) +
+  geom_point(alpha = 0.5) +  
+  geom_smooth(method = "lm", color = "steelblue") + 
+  labs(
+    title = "Correlation Between Household Income 
+    and Center-Based Childcare Costs in California",
+    y = "",
+    x = "2018 Dollars",
+    subtitle = "Median Weekly Price for Infants"
+  ) +
+  theme_minimal()  
 ```
 
 **8. Look up the documentation for `lm()` and fit a linear regression model to the relationship shown in your plot above.**
 
 ```{r}
 # complete the code provided
-reg_mod1 <- lm()
+reg_mod1 <- lm(mc_infant ~ mhi_2018, data = ca_childcare)
 summary(reg_mod1)
 ```
 
 **9. Using the output from `summary()`, write out the estimated regression line (recall: $y = mx + b$).**
 
+y = (2.241e-03)x + 1.317e+02
+
 **10. Do you have evidence to conclude there is a relationship between the median household income and the median weekly cost of center-based childcare for infants in California? Cite values from your `summary()` output to support your claim!**
+
+Yes. The slope is positive, so if the average income a household makes increases, 
+the weekly cost of infant childcare also increases. More specifically, the slope is 
+2.241e-03, meaning that for every dollar a household makes, the weekly cost of 
+infant goes up by about $0.002241. Next, the p-value is < 2.2e-16, which is
+smaller than 0.05, which further proves that statistically there is a relationship
+between childcare prices and income. The t-value for the mhi_2018 coefficient is 33.26
+(t-value for slope), which is large, suggesting the slope is far from 0, or that
+again household income does have an impact on childcare cost. Lastly, the R-sqaured
+value is 0.635, so 63.5% of the childcare cost variability is a result from income. 
+
+
+ 
+ 
+ 
+
+ 
+
