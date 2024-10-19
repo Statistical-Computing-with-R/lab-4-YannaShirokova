@@ -90,29 +90,25 @@ ca_childcare
 #| warning: false
 #| message: false
 
-# get counties with ca_childcare columns
-ca_childcare <- ca_childcare |>
+ca_childcare <- ca_childcare |> # keep
+  mutate(county_name = str_remove(county_name, " County")) |> # keep
   mutate(region = 
     fct_collapse(county_name,
-      "Superior California" = c("Butte", "Colusa", "El Dorado", "Glenn", "Lassen", "Modoc", "Nevada", 
-                                "Placer", "Plumas", "Sacramento", "Shasta", "Sierra", "Siskiyou", 
-                                "Sutter", "Tehama", "Yolo", "Yuba"),
-      "Northern San Joaquin valley" = c("Alpine", "Amador", "Calaveras", "Madera", "Mariposa", 
-                                                 "Merced", "Mono", "San Joaquin", "Stanislaus", "Tuolumne"),
-      "San Francisco Bay Area" = c("Alameda", "Contra Costa", "Marin", "San Francisco", "San Mateo", 
-                                   "Santa Clara", "Solano"),
-      "Central Coast" = c("Monterey", "San Benito", "San Luis Obispo", "Santa Barbara", "Santa Cruz", 
-                          "Ventura"),
-      "Southern San Joaquin valley" = c("Fresno", "Inyo", "Kern", "Kings", "Tulare"),
-      "North Coast" = c("Del Norte", "Humboldt", "Lake", "Mendocino", "Napa", "Sonoma", 
-                                      "Trinity"),
+      "Superior California" = c("Butte", "Colusa", "El Dorado", "Glenn", "Lassen", "Modoc", "Nevada", "Placer", 
+              "Plumas", "Sacramento", "Shasta", "Sierra", "Siskiyou", "Sutter", "Tehama", "Yolo", "Yuba"),
+      "North Coast" = c("Del Norte", "Humboldt", "Lake", "Mendocino", "Napa", "Sonoma", "Trinity"),
+      "San Francisco Bay Area" = c("Alameda", "Contra Costa", "Marin", "San Francisco", "San Mateo", "Santa Clara", "Solano"),
+      "Northeren San Joaquin Valley" = c("Alpine", "Amador", "Calaveras", "Madera", "Mariposa", "Merced", "Mono", "San Joaquin", 
+              "Stanislaus", "Tuolumne"),
+      "Central Coast" = c("Monterey", "San Benito", "San Luis Obispo", "Santa Barbara", "Santa Cruz", "Ventura"),
+      "Southern San Joaquin Valley" = c("Fresno", "Inyo", "Kern", "Kings", "Tulare"),
       "Inland Empire" = c("Riverside", "San Bernardino"),
       "Los Angeles County" = c("Los Angeles"),
       "Orange County" = c("Orange"),
-      "San Diego-Imperial" = c("Imperial", "San Diego")
+      "San-Diego Imperial" = c("Imperial", "San Diego")
   ))
-
-
+  
+ ca_childcare
 
 ```
 
