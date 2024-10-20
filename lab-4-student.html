@@ -3480,7 +3480,7 @@ window.Quarto = {
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ca_childcare_long, <span class="fu">aes</span>(<span class="at">x =</span> study_year, <span class="at">y =</span> price, </span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ca_childcare_long, <span class="fu">aes</span>(<span class="at">x =</span> study_year, <span class="at">y =</span> price, </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="fu">fct_reorder2</span>(<span class="at">.f =</span> region, <span class="at">.x =</span> study_year, <span class="at">.y =</span> price))) <span class="sc">+</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  </span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.8</span>) <span class="sc">+</span> </span>
@@ -3517,7 +3517,7 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ca_childcare, <span class="fu">aes</span>(<span class="at">x =</span> mhi_2018, <span class="at">y =</span> mc_infant)) <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ca_childcare, <span class="fu">aes</span>(<span class="at">x =</span> mhi_2018, <span class="at">y =</span> mc_infant)) <span class="sc">+</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">color =</span> <span class="st">&quot;steelblue&quot;</span>) <span class="sc">+</span> </span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
@@ -4248,7 +4248,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb17-212"><a href="#cb17-212" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb17-213"><a href="#cb17-213" aria-hidden="true" tabindex="-1"></a>ca_childcare_long</span>
 <span id="cb17-214"><a href="#cb17-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-215"><a href="#cb17-215" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ca_childcare_long, <span class="fu">aes</span>(<span class="at">x =</span> study_year, <span class="at">y =</span> price, </span>
+<span id="cb17-215"><a href="#cb17-215" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ca_childcare_long, <span class="fu">aes</span>(<span class="at">x =</span> study_year, <span class="at">y =</span> price, </span>
 <span id="cb17-216"><a href="#cb17-216" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="fu">fct_reorder2</span>(<span class="at">.f =</span> region, <span class="at">.x =</span> study_year, <span class="at">.y =</span> price))) <span class="sc">+</span></span>
 <span id="cb17-217"><a href="#cb17-217" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  </span>
 <span id="cb17-218"><a href="#cb17-218" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.8</span>) <span class="sc">+</span> </span>
@@ -4283,7 +4283,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb17-249"><a href="#cb17-249" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
 <span id="cb17-250"><a href="#cb17-250" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
 <span id="cb17-251"><a href="#cb17-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-252"><a href="#cb17-252" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ca_childcare, <span class="fu">aes</span>(<span class="at">x =</span> mhi_2018, <span class="at">y =</span> mc_infant)) <span class="sc">+</span></span>
+<span id="cb17-252"><a href="#cb17-252" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ca_childcare, <span class="fu">aes</span>(<span class="at">x =</span> mhi_2018, <span class="at">y =</span> mc_infant)) <span class="sc">+</span></span>
 <span id="cb17-253"><a href="#cb17-253" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span>  </span>
 <span id="cb17-254"><a href="#cb17-254" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">color =</span> <span class="st">&quot;steelblue&quot;</span>) <span class="sc">+</span> </span>
 <span id="cb17-255"><a href="#cb17-255" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>

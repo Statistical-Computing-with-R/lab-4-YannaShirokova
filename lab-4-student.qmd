@@ -198,7 +198,7 @@ ca_childcare_long <- ca_childcare |>
  
 ca_childcare_long
 
-ggplot(ca_childcare_long, aes(x = study_year, y = price, 
+ggplot(data = ca_childcare_long, aes(x = study_year, y = price, 
   color = fct_reorder2(.f = region, .x = study_year, .y = price))) +
   geom_smooth(method = "loess", linewidth = 0.5) +  
   geom_point(size = 0.8) + 
@@ -233,7 +233,7 @@ ggplot(ca_childcare_long, aes(x = study_year, y = price,
 #| warning: false
 #| message: false
 
-ggplot(ca_childcare, aes(x = mhi_2018, y = mc_infant)) +
+ggplot(data = ca_childcare, aes(x = mhi_2018, y = mc_infant)) +
   geom_point(alpha = 0.5) +  
   geom_smooth(method = "lm", color = "steelblue") + 
   labs(
