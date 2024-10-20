@@ -50,15 +50,20 @@ counties <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytues
 
 In this lab we’re going look at the median weekly cost of childcare in California.
 
-The childcare_costs dataset looks at various counties and provides information on
-unemployement rates, labor force participation rates, poverty rates, medium earnings/
-income, total population count, race, number of households, employement/ type of jobs, 
-and chilcare care rates for different groups. The counties dataset looks at various 
+The childcare_costs data set looks at various counties and provides information on
+unemployment rates, labor force participation rates, poverty rates, medium earnings/
+income, total population count, race, number of households, employment/ type of jobs, 
+and childcare care rates for different groups. The counties data set looks at various 
 counties and provides information on their name, state, and two letter abbreviation. 
-Together, these datasets allow us to analyze and compare counties in terms of 
+
+Together, these data sets allow us to analyze and compare counties in terms of 
 employment, poverty, household income, and childcare costs, offering insights into 
 the economic factors that may influence childcare affordability across different 
-regions.
+regions. So, they help analyze the relationship between childcare costs 
+and various socioeconomic factors across U.S. counties.The data came from market 
+rate surveys and the American Community Survey (ACS) and was collected to 
+understand childcare affordability and access, to support families and make 
+changes in needed
 
 ## California Childcare Costs
 
@@ -94,19 +99,17 @@ ca_childcare <- ca_childcare |> # keep
   mutate(county_name = str_remove(county_name, " County")) |> # keep
   mutate(region = 
     fct_collapse(county_name,
-      "Superior California" = c("Butte", "Colusa", "El Dorado", "Glenn", "Lassen", "Modoc", "Nevada", "Placer", 
-              "Plumas", "Sacramento", "Shasta", "Sierra", "Siskiyou", "Sutter", "Tehama", "Yolo", "Yuba"),
-      "North Coast" = c("Del Norte", "Humboldt", "Lake", "Mendocino", "Napa", "Sonoma", "Trinity"),
-      "San Francisco Bay Area" = c("Alameda", "Contra Costa", "Marin", "San Francisco", "San Mateo", "Santa Clara", "Solano"),
-      "Northeren San Joaquin Valley" = c("Alpine", "Amador", "Calaveras", "Madera", "Mariposa", "Merced", "Mono", "San Joaquin", 
-              "Stanislaus", "Tuolumne"),
-      "Central Coast" = c("Monterey", "San Benito", "San Luis Obispo", "Santa Barbara", "Santa Cruz", "Ventura"),
-      "Southern San Joaquin Valley" = c("Fresno", "Inyo", "Kern", "Kings", "Tulare"),
-      "Inland Empire" = c("Riverside", "San Bernardino"),
-      "Los Angeles County" = c("Los Angeles"),
-      "Orange County" = c("Orange"),
-      "San-Diego Imperial" = c("Imperial", "San Diego")
-  ))
+      "Superior California" = c("Butte", "Colusa", "El Dorado", "Glenn", "Lassen", "Modoc", 
+      "Nevada", "Placer", "Plumas", "Sacramento", "Shasta", "Sierra", "Siskiyou", "Sutter", 
+      "Tehama", "Yolo", "Yuba"), "North Coast" = c("Del Norte", "Humboldt", "Lake", "Mendocino",
+      "Napa", "Sonoma", "Trinity"), "San Francisco Bay Area" = c("Alameda", "Contra Costa", 
+      "Marin", "San Francisco", "San Mateo", "Santa Clara", "Solano"), "Northeren San Joaquin 
+       Valley" = c("Alpine", "Amador", "Calaveras", "Madera", "Mariposa", "Merced", "Mono", "San
+       Joaquin", "Stanislaus", "Tuolumne"), "Central Coast" = c("Monterey", "San Benito", "San
+       Luis Obispo", "Santa Barbara", "Santa Cruz", "Ventura"), "Southern San Joaquin Valley" = 
+       c("Fresno", "Inyo", "Kern", "Kings", "Tulare"), "Inland Empire" = c("Riverside", "San 
+       Bernardino"), "Los Angeles County" = c("Los Angeles"), "Orange County" = c("Orange"),
+       "San-Diego Imperial" = c("Imperial", "San Diego")))
   
  ca_childcare
 
@@ -154,7 +157,7 @@ second to lowest group was Superior California (lowest is Southern San Joaquin V
  ca_childcare |>
   filter(study_year == 2018) |>
   group_by(region) |>
-  summarise(med_price = median(mc_infant, na.rm = TRUE), .groups = 'drop') |>
+  summarise(med_price = median(mc_infant, na.rm = TRUE)) |>
   filter(med_price == min(med_price))  
 
 ```
@@ -216,9 +219,6 @@ ggplot(ca_childcare_long, aes(x = study_year, y = price,
         aspect.ratio = 1, 
         axis.text.x = element_text(size = 6), 
         axis.text.y = element_text(size = 6)) 
-
-
-
   
 ```
 
@@ -244,18 +244,21 @@ ggplot(ca_childcare, aes(x = mhi_2018, y = mc_infant)) +
     subtitle = "Median Weekly Price for Infants"
   ) +
   theme_minimal()  
+
 ```
 
 **8. Look up the documentation for `lm()` and fit a linear regression model to the relationship shown in your plot above.**
 
 ```{r}
-# complete the code provided
 #| echo: true
 #| warning: false
 #| message: false
 
+# complete the code provided
+
 reg_mod1 <- lm(mc_infant ~ mhi_2018, data = ca_childcare)
 summary(reg_mod1)
+
 ```
 
 **9. Using the output from `summary()`, write out the estimated regression line (recall: $y = mx + b$).**
@@ -269,9 +272,9 @@ the weekly cost of infant childcare also increases. More specifically, the slope
 2.241e-03, meaning that for every dollar a household makes, the weekly cost of 
 infant goes up by about $0.002241. Next, the p-value is < 2.2e-16, which is
 smaller than 0.05, which further proves that statistically there is a relationship
-between childcare prices and income. The t-value for the mhi_2018 coefficient is 33.26
+Between  childcare prices and income. The t-value for the mhi_2018 coefficient is 33.26
 (t-value for slope), which is large, suggesting the slope is far from 0, or that
-again household income does have an impact on childcare cost. Lastly, the R-sqaured
+again household income does have an impact on childcare cost. Lastly, the R-squared
 value is 0.635, so 63.5% of the childcare cost variability is a result from 
 income. 
 
