@@ -5,9 +5,9 @@ date: "October 15, 2024"
 editor: source
 embed-resources: true
 execute:
-  echo: true
   error: false
   message: false
+  echo: true
 format: 
   html:
     code-fold: true
@@ -33,6 +33,7 @@ The data come to us from [TidyTuesday](https://github.com/rfordatascience/tidytu
 
 library(tidyverse)
 library(forcats)
+library(RColorBrewer)
 ```
 
 ```{r}
@@ -82,7 +83,10 @@ ca_childcare <- childcare_costs |>
   inner_join(counties, by = "county_fips_code") |>
   filter(state_abbreviation == "CA")
 
-ca_childcare
+# REFLECTION/ GROWING
+# Before I was outputing the dataset at each stage. This is unnessary. I don't
+# need to include outputs that don't show relevant information as this can 
+# clutter my document.
 
 ```
 
@@ -95,23 +99,24 @@ ca_childcare
 #| warning: false
 #| message: false
 
-ca_childcare <- ca_childcare |> # keep
+ca_childcare_clean <- ca_childcare |> # keep
   mutate(county_name = str_remove(county_name, " County")) |> # keep
   mutate(region = 
     fct_collapse(county_name,
       "Superior California" = c("Butte", "Colusa", "El Dorado", "Glenn", "Lassen", "Modoc", 
       "Nevada", "Placer", "Plumas", "Sacramento", "Shasta", "Sierra", "Siskiyou", "Sutter", 
-      "Tehama", "Yolo", "Yuba"), "North Coast" = c("Del Norte", "Humboldt", "Lake", "Mendocino",
-      "Napa", "Sonoma", "Trinity"), "San Francisco Bay Area" = c("Alameda", "Contra Costa", 
-      "Marin", "San Francisco", "San Mateo", "Santa Clara", "Solano"), "Northeren San Joaquin 
-       Valley" = c("Alpine", "Amador", "Calaveras", "Madera", "Mariposa", "Merced", "Mono", "San
-       Joaquin", "Stanislaus", "Tuolumne"), "Central Coast" = c("Monterey", "San Benito", "San
-       Luis Obispo", "Santa Barbara", "Santa Cruz", "Ventura"), "Southern San Joaquin Valley" = 
-       c("Fresno", "Inyo", "Kern", "Kings", "Tulare"), "Inland Empire" = c("Riverside", "San 
-       Bernardino"), "Los Angeles County" = c("Los Angeles"), "Orange County" = c("Orange"),
-       "San-Diego Imperial" = c("Imperial", "San Diego")))
-  
- ca_childcare
+      "Tehama", "Yolo", "Yuba"), 
+      "North Coast" = c("Del Norte", "Humboldt", "Lake", "Mendocino", "Napa", "Sonoma", "Trinity"), 
+      "San Francisco Bay Area" = c("Alameda", "Contra Costa", 
+      "Marin", "San Francisco", "San Mateo", "Santa Clara", "Solano"), 
+      "Northeren San Joaquin Valley" = c("Alpine", "Amador", "Calaveras", 
+      "Madera", "Mariposa", "Merced", "Mono", "San Joaquin", "Stanislaus", "Tuolumne"), 
+      "Central Coast" = c("Monterey", "San Benito", "San Luis Obispo", "Santa Barbara", "Santa Cruz", "Ventura"), 
+      "Southern San Joaquin Valley" = c("Fresno", "Inyo", "Kern", "Kings", "Tulare"), 
+      "Inland Empire" = c("Riverside", "San Bernardino"), 
+      "Los Angeles County" = c("Los Angeles"), 
+      "Orange County" = c("Orange"),
+      "San-Diego Imperial" = c("Imperial", "San Diego")))
 
 ```
 
@@ -127,7 +132,7 @@ ca_childcare <- ca_childcare |> # keep
 # https://chatgpt.com/share/670f5a38-d3b4-8006-ad62-8769382ddacb
 # got a red error from rstudio -- asked what it means -- added .groups = 'drop'
 
-ca_childcare |>
+ca_childcare_clean |>
   filter(study_year == 2008 | study_year == 2018) |>
   group_by(region, study_year) |>
   summarise(median_income = median(mhi_2018, na.rm = TRUE), .groups = 'drop') |>
@@ -154,7 +159,7 @@ second to lowest group was Superior California (lowest is Southern San Joaquin V
 #| warning: false
 #| message: false
 
- ca_childcare |>
+ ca_childcare_clean |>
   filter(study_year == 2018) |>
   group_by(region) |>
   summarise(med_price = median(mc_infant, na.rm = TRUE)) |>
@@ -181,27 +186,38 @@ second to lowest group was Superior California (lowest is Southern San Joaquin V
 # Looked up how to separate graphs a little
 # Looked up how to adjust size of text and line/ dots
 # Looked up how to change text size
+# https://chatgpt.com/share/671b1f58-e52c-8006-a097-3d05613a1ebc
+# ^ for coloring
 
-ca_childcare_long <- ca_childcare |>
+# GROWING/ REFLECTION:
+# Before I changed the names of mc_infant, mc_toddler, mc_preschool 
+# to Infant, Toddler, Preschool using recode(), which is
+# superseeded! I changed it to case_when() from the forcats package. This way
+# I am using the updated appropreiate function. I also changed the size of my
+# legend to be smaller, as it was massive before. This makes the graph more
+# pleasing to look at. Lastly, I added the theme theme_bw() and modified the
+# colors. Rather than using the defaults, it is important to explore different
+# colors and themes that can make a graph more appealing!
+
+ca_childcare_long <- ca_childcare_clean |>
   select(study_year, region, mc_infant, mc_toddler, mc_preschool) |>
-  # columns that start with mc_ should be made into a new column (combined)
+  # Transform wide to long format
   pivot_longer(cols = starts_with("mc_"), 
-               # call this new column age that will hold ^ 
+               # Create a new column "age" from the column names
                names_to = "age", 
-               # new column price that will hold corresponding value
+               # The corresponding values will go in the "price" column
                values_to = "price") |>
-               mutate(age = recode(age, 
-                                 mc_infant = "Infant", 
-                                 mc_toddler = "Toddler", 
-                                 mc_preschool = "Preschool"),
-               age = factor(age, levels = c("Infant", "Toddler", "Preschool")))
- 
+  mutate(age = fct_relevel(case_when(
+    age == "mc_infant" ~ "Infant",
+    age == "mc_toddler" ~ "Toddler",
+    age == "mc_preschool" ~ "Preschool"
+  ), "Infant", "Toddler", "Preschool"))
 ca_childcare_long
 
 ggplot(data = ca_childcare_long, aes(x = study_year, y = price, 
   color = fct_reorder2(.f = region, .x = study_year, .y = price))) +
   geom_smooth(method = "loess", linewidth = 0.5) +  
-  geom_point(size = 0.8) + 
+  geom_point(size = 0.8, alpha = 0.5) + 
   # creates seperate graphs for age_groups
   # each has its own x-axis
   # in one row 
@@ -213,13 +229,20 @@ ggplot(data = ca_childcare_long, aes(x = study_year, y = price,
   # adjust axis
   scale_y_continuous(limits = c(100, 500), breaks = seq(100, 500, by = 100)) +
   scale_x_continuous(breaks = seq(2008, 2018, by = 2)) +
-  # spaces the graphs apart, lines is a unit
-  theme(panel.spacing = unit(1, "lines"), 
-        # change size of graphs
-        aspect.ratio = 1, 
-        axis.text.x = element_text(size = 6), 
-        axis.text.y = element_text(size = 6)) 
-  
+  theme_bw() +
+  theme(
+    # spaces the graphs apart, lines is a unit
+    panel.spacing = unit(1, "lines"), 
+    # change the aspect ratio to make it less tall
+    aspect.ratio = 1, # make it less tall
+    axis.text.x = element_text(size = 7), 
+    axis.text.y = element_text(size = 7), 
+    legend.title = element_text(size = 10), 
+    legend.text = element_text(size = 8), 
+    legend.key.size = unit(0.8, "lines")
+  ) +
+  scale_color_manual(values = colorRampPalette(brewer.pal(8, "Accent"))(10))
+
 ```
 
 
@@ -263,7 +286,22 @@ summary(reg_mod1)
 
 **9. Using the output from `summary()`, write out the estimated regression line (recall: $y = mx + b$).**
 
-y = (2.241e-03)x + 1.317e+02
+GROWING/ REFLECTION: 
+Before I just had y = (2.241e-03)x + 1.317e+02, which includes no context about
+what this equation means. The notation I used also made it hard to understand 
+what the numbers actually were. I changed the eqeuation to not be in scientific 
+notation so one could easily read the numbers. I also added context about what 
+the numbers and variables in this equation actually mean. Why have an equation 
+when you don't consider the context, or the importance of it!
+
+y= 0.002241x + 131.7
+
+y represents the weekly median cost of center-based childcare for infants.  
+x represents the median household income in 2018 dollars. The equation implies 
+that for each additional dollar of median household income in 2018, the weekly 
+median cost of childcare increases by about $0.002241. If a household income is 
+$0, their childcare cose is $131.7. This is high considering a family may not
+be making money!
 
 **10. Do you have evidence to conclude there is a relationship between the median household income and the median weekly cost of center-based childcare for infants in California? Cite values from your `summary()` output to support your claim!**
 
